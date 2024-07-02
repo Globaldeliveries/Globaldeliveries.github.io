@@ -31,16 +31,21 @@
         }
         .info-section {
             background-color: #f9f9f9;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 20px;
+            margin: 20px 0;
             border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .info-section p {
-            margin: 5px 0;
+            margin: 10px 0;
+            line-height: 1.6;
         }
-        .highlight {
+        .info-section .highlight {
             color: blue;
             font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.2em;
         }
         .marquee {
             background-color: #87caff;
@@ -64,34 +69,6 @@
             margin: 20px 0;
         }
     </style>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var password = prompt('Insert Tracking Number', '');
-            if (password !== 'GD2123000') {
-                window.location = "index.htm";
-            } else {
-                alert('Approved.');
-            }
-
-            var countDownDate = new Date("Nov 27, 2023 15:37:25").getTime();
-            var x = setInterval(function() {
-                var now = new Date().getTime();
-                var distance = countDownDate - now;
-
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById("demo").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("demo").innerHTML = "Moving✈️";
-                }
-            }, 1000);
-        });
-    </script>
     <script type="text/javascript">
         var _smartsupp = _smartsupp || {};
         _smartsupp.key = '38e6895aae3a8fbb54b0f9aa359f7807f19effed';
@@ -108,7 +85,10 @@
 <body>
     <div class="container">
         <h1>Cargo Information/Location Page</h1>
-
+        
+        <!-- Google Translate -->
+        <div id="google_translate_element"></div>
+        
         <div class="marquee">
             <marquee direction="right">Czech Republic 🇨🇿 ....</marquee>
         </div>
@@ -153,5 +133,43 @@
             <iframe src="https://maps.google.com/maps?q=czech&t=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
         </div>
     </div>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Your existing scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var password = prompt('Insert Tracking Number', '');
+            if (password !== 'GD2123000') {
+                window.location = "index.htm";
+            } else {
+                alert('Approved.');
+            }
+
+            var countDownDate = new Date("Nov 27, 2023 15:37:25").getTime();
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("demo").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = "Moving✈️";
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
