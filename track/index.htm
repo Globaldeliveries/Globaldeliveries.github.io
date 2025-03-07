@@ -2,158 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargo Update</title>
-	<script language="javascript">
-		<!--hide
-		var password;
-		var pass1="AU45667858";
-		password=prompt('Insert Tracking Number','');
-		if (password==pass1)
-		alert('Approved.');
-		else
-		{
-		  window.location="index.htm";
-		}
-		//-->
-		</script>
+    <title>Lock Screen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
             margin: 0;
-            padding: 0;
-            text-align: center;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        .lock-screen {
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            color: #ff6347;
-            margin-bottom: 20px;
-        }
-        h2 {
-            color: #4682b4;
-            margin: 20px 0;
-        }
-        .info-section {
-            background-color: #f9f9f9;
             padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            text-align: left;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
         }
-        .info-section p {
-            margin: 10px 0;
-            line-height: 1.6;
-        }
-        .info-section .highlight {
-            color: blue;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 1.2em;
-        }
-        .marquee {
-            background-color: #87caff;
-            border: 3px solid red;
+        input {
             padding: 10px;
-            margin: 20px 0;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: calc(100% - 22px); /* Full width minus padding and border */
+            font-size: 16px;
         }
-        .map-container {
-            margin: 20px 0;
-        }
-        iframe {
-            width: 100%;
-            height: 300px;
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
         }
-        .note {
-            background-color: #fff3cd;
-            padding: 10px;
-            border-radius: 8px;
-            margin: 20px 0;
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
         }
     </style>
-    <script type="text/javascript">
-        var _smartsupp = _smartsupp || {};
-        _smartsupp.key = '38e6895aae3a8fbb54b0f9aa359f7807f19effed';
-        _smartsupp.cookieDomain = 'myglobaldeliveryservice.com';
-        _smartsupp.sitePlatform = 'WP 5.8.6';
-        window.smartsupp||(function(d) {
-            var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
-            s=d.getElementsByTagName('script')[0];c=d.createElement('script');
-            c.type='text/javascript';c.charset='utf-8';c.async=true;
-            c.src='//www.smartsuppchat.com/loader.js';s.parentNode.insertBefore(c,s);
-        })(document);
-    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Tracking Information</h1>
-        
-        <!-- Google Translate -->
-        <div id="google_translate_element"></div>
-        
-        <div class="marquee">
-            <marquee direction="right"> Austria..</marquee>
-        </div>
-
-        <p id="demo"></p>
-
-        <h2>Delivery Status</h2>
-        <div class="info-section">
-            <p> Your package is currently on hold at Salzburg international airport due to an unexpected landing fee of €3,500 ( three thousand five hundred euros ). Please contact the assigned agent via WhatsApp at +12026016735 to address the fee and proceed with the clearance of your package.</p>
-        </div>
-
-        <h2>Delivery Details</h2>
-        <div class="info-section">
-            <p><span class="highlight">RECIVER INFORMATION</span></p>
-            <p>1- Bettina Strohbach</p>
-            <p>2- kirchengasse8 3710 Ziersdorf.</p>
-            <p>3- +43 660 6571046</p>
-            <p>4- strohbacherbettina@gmail.com</p>
-        </div>
-
-        <div class="info-section">
-            <p><span class="highlight">SENDER INFORMATION</span></p>
-            <p>1- Bolorman Cage</p>
-            <p>2- Xxxx</p>
-            <p>3- xxxxxxx@xxx.com</p>
-            <p>4- xxxxxxxx</p>
-        </div>
-
-        <div class="info-section">
-            <p><span class="highlight">COMPANY</span></p>
-            <p>1- Richard Donford (Diplomat)</p>
-            <p>2- xxxxxxx.gmail.com (Diplomat email)</p>
-            <p>3- +1 (252) 216‑2061 </p>
-        </div>
-
-        <div class="note">
-            <p><span class="highlight">NOTE</span></p>
-            <p>Your package was registered as a high Priority consignment and will be able to move throughout the European territory. You will be updated as soon as we arrive at your location.</p>
-        </div>
-
-        <div class="map-container">
-            <iframe src="https://maps.google.com/maps?q=Bundesstraße 95, 5020 Salzburg, Austria&t=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
-        </div>
+    <div class="lock-screen">
+        <h2>Enter Tracking Number</h2>
+        <input type="text" id="trackingNumber" placeholder="Tracking Number">
+        <button onclick="checkTrackingNumber()">Submit</button>
+        <p id="errorMessage" class="error"></p>
     </div>
 
-    <!-- Google Translate Script -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    <script>
+        // Define the correct tracking numbers/passwords for up to 5 users
+        const users = [
+            { password: "RZ2354678", redirectFile: "folder1/index.htm" }, // User 1
+            { password: "654321", redirectFile: "folder2/index.htm" }, // User 2
+            { password: "111111", redirectFile: "folder3/index.htm" }, // User 3
+            { password: "222222", redirectFile: "folder4/index.htm" }, // User 4
+            { password: "333333", redirectFile: "folder5/index.htm" }, // User 5
+        ];
+
+        function checkTrackingNumber() {
+            // Get the input value
+            const input = document.getElementById("trackingNumber").value.trim();
+            const errorMessage = document.getElementById("errorMessage");
+
+            // Check if the input matches any of the users' passwords
+            const user = users.find(user => user.password === input);
+
+            if (user) {
+                // Redirect to the corresponding user's page
+                window.location.href = user.redirectFile;
+            } else {
+                // Display error message
+                errorMessage.textContent = "Invalid tracking number";
+            }
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
