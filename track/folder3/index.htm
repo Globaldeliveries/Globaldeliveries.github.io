@@ -278,10 +278,25 @@
                     <div></div>
                 </div>
             </div>
-            <div style="margin: 20px 0;">
-                <p>Estimated Delivery Time:</p>
-                <div id="countdown">02:00:00</div>
-            </div>
+           <div style="margin: 20px 0;">
+    <p>Estimated Delivery Time:</p>
+    <div id="countdown">02:00:00</div>
+</div>
+
+<script>
+    // Simple 2-hour countdown
+    let seconds = 7200; // 2 hours = 7200 seconds
+    const timer = setInterval(() => {
+        seconds--;
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        document.getElementById('countdown').textContent = 
+            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        
+        if(seconds <= 0) clearInterval(timer);
+    }, 1000);
+</script>
         </div>
 
         <h2>Delivery Details</h2>
