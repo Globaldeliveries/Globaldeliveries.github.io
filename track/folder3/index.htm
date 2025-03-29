@@ -284,19 +284,33 @@
 </div>
 
 <script>
-    // Simple 2-hour countdown
-    let seconds = 7200; // 2 hours = 7200 seconds
-    const timer = setInterval(() => {
-        seconds--;
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-        document.getElementById('countdown').textContent = 
-            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    // Simple stabilized version
+    let seconds = 7200; // 2 hours in seconds
+    const countdownEl = document.getElementById('countdown');
+    
+    function updateTimer() {
+        const hrs = String(Math.floor(seconds/3600)).padStart(2, '0');
+        const mins = String(Math.floor((seconds%3600)/60)).padStart(2, '0');
+        const secs = String(seconds%60).padStart(2, '0');
         
-        if(seconds <= 0) clearInterval(timer);
-    }, 1000);
+        countdownEl.textContent = `${hrs}:${mins}:${secs}`;
+        seconds = seconds > 0 ? seconds - 1 : 0;
+    }
+
+    setInterval(updateTimer, 1000);
 </script>
+
+<style>
+    /* Add this CSS to prevent layout shifting/blinking */
+    #countdown {
+        font-size: 1.5em;
+        color: #ff6347;
+        font-weight: bold;
+        font-family: monospace; /* Fixed-width numbers */
+        min-width: 8ch;        /* Reserve space for HH:MM:SS */
+        display: inline-block; /* Maintain consistent layout */
+    }
+</style>
         </div>
 
         <h2>Delivery Details</h2>
