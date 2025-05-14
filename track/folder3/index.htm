@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargo Update</title>
+    <title>Global Delivery</title>
     <style>
         /* General Styles */
         body {
@@ -130,16 +130,66 @@
             color: #ff6347;
         }
 
+        /* Progress Bar Styles */
+        .progress-container {
+            position: relative;
+            height: 40px;
+            margin: 25px 0;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff6347;
+            position: relative;
+            transition: width 1s ease-in-out;
+            width: 85%;
+        }
+
+        .progress-percent {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        .airplane {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            font-size: 24px;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+        }
+
+        /* PDF Button Styles */
+        .pdf-btn {
+            background: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .pdf-btn:hover {
+            transform: scale(1.05);
+            background: #218838;
+        }
+
         /* Animations */
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Loading Animation */
@@ -157,93 +207,13 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Sticky Header */
-        header {
-            position: sticky;
-            top: 0;
-            background: #4682b4;
-            color: #fff;
-            padding: 10px 20px;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Dark Mode Adjustments */
+        .dark-mode .progress-container {
+            background: #555;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-
-        /* Progress Bar */
-        .progress-bar {
-            background: #e0e0e0;
-            border-radius: 8px;
-            height: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar div {
-            width: 1%;
-            background: #ff6347;
-            height: 100%;
-            border-radius: 8px;
-        }
-
-        /* Countdown Timer */
-        #countdown {
-            font-size: 1.5em;
-            color: #ff6347;
-            font-weight: bold;
-        }
-
-        /* Feedback Form */
-        #feedbackForm {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        #feedbackForm input, #feedbackForm textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        #feedbackForm button {
-            background: #4682b4;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        /* FAQ Section */
-        details {
-            margin: 10px 0;
-        }
-
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Footer */
-        footer {
-            background: #4682b4;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        footer a {
-            color: #fff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
+        .dark-mode .pdf-btn {
+            background: #1e7e34;
         }
     </style>
 </head>
@@ -266,84 +236,62 @@
         <div id="google_translate_element"></div>
         
         <div class="marquee">
-            <marquee direction="right"> Austria..</marquee>
+            <marquee direction="right"> United Kingdom..</marquee>
         </div>
 
         <h2>Delivery Status</h2>
         <div class="info-section">
-            <p> Your package is currently on hold at Salzburg international airport due to an unexpected landing fee of €3,500 ( three thousand five hundred euros ). Please contact the assigned agent via WhatsApp at +12026016735 to address the fee and proceed with the clearance of your package.</p>
+            <p>Your package is currently in transit and is expected to arrive at the registered address within 24 hours.</p>
             <div style="margin: 20px 0;">
                 <p>Delivery Progress:</p>
-                <div class="progress-bar">
-                    <div></div>
+                <div class="progress-container">
+                    <div class="progress-fill" style="width: 85%">
+                        <div class="progress-percent">85%</div>
+                        <div class="airplane">✈️</div>
+                    </div>
                 </div>
             </div>
-           <div style="margin: 20px 0;">
-    <p>Estimated Delivery Time:</p>
-    <div id="countdown">02:00:00</div>
-</div>
-
-<script>
-    // Simple stabilized version
-    let seconds = 7200; // 2 hours in seconds
-    const countdownEl = document.getElementById('countdown');
-    
-    function updateTimer() {
-        const hrs = String(Math.floor(seconds/3600)).padStart(2, '0');
-        const mins = String(Math.floor((seconds%3600)/60)).padStart(2, '0');
-        const secs = String(seconds%60).padStart(2, '0');
-        
-        countdownEl.textContent = `${hrs}:${mins}:${secs}`;
-        seconds = seconds > 0 ? seconds - 1 : 0;
-    }
-
-    setInterval(updateTimer, 1000);
-</script>
-
-<style>
-    /* Add this CSS to prevent layout shifting/blinking */
-    #countdown {
-        font-size: 1.5em;
-        color: #ff6347;
-        font-weight: bold;
-        font-family: monospace; /* Fixed-width numbers */
-        min-width: 8ch;        /* Reserve space for HH:MM:SS */
-        display: inline-block; /* Maintain consistent layout */
-    }
-</style>
         </div>
 
+        <!-- Delivery Documents -->
+        <h2>Delivery Documents</h2>
+        <div class="info-section">
+            <a href="pdf/delivery_receipt.pdf" class="pdf-btn" target="_blank">
+                View Delivery Receipt
+            </a>
+        </div>
+
+        <!-- Delivery Details -->
         <h2>Delivery Details</h2>
         <div class="info-section">
             <p><span class="highlight">RECEIVER INFORMATION</span></p>
-            <p>1- Bettina Strohbach</p>
-            <p>2- kirchengasse8 3710 Ziersdorf.</p>
-            <p>3- +43 660 6571046</p>
-            <p>4- strohbacherbettina@gmail.com</p>
+            <p>1- Marianna Reid</p>
+            <p>2- 3511 N 49th street omaha, Nebraska 68104</p>
+            <p>3- +1 775-378-7934</p>
+            <p>4- Reid.marianna@gmail.com</p>
         </div>
 
         <div class="info-section">
             <p><span class="highlight">SENDER INFORMATION</span></p>
-            <p>1- Bolorman Cage</p>
-            <p>2- Xxxx</p>
+            <p>1- Vincent</p>
+            <p>2- United States</p>
             <p>3- xxxxxxx@xxx.com</p>
-            <p>4- xxxxxxxx</p>
+            <p>4- 000000000</p>
         </div>
 
         <div class="info-section">
             <p><span class="highlight">COMPANY</span></p>
-            <p>1- Richard Donford (Diplomat)</p>
-            <p>2- xxxxxxx.gmail.com (Diplomat email)</p>
-            <p>3- +1 (252) 216‑2061 </p>
+            <p>1- Albert Lambert (Diplomat)</p>
+            <p>2- Global.Deliveries@proton.me</p>
         </div>
 
         <div class="note">
             <p><span class="highlight">NOTE</span></p>
-            <p>Your package was registered as a high Priority consignment and will be able to move throughout the European territory. You will be updated as soon as we arrive at your location.</p>
+            <p>Your package was registered as a high Priority consignment and will be able to move throughout the American territory.</p>
         </div>
 
         <div class="map-container">
-            <iframe src="https://maps.google.com/maps?q=Bundesstraße 95, 5020 Salzburg, Austria&t=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
+            <iframe src="https://maps.google.com/maps?q=United Kingdom=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
         </div>
 
         <!-- FAQ Section -->
@@ -351,7 +299,7 @@
             <h2>FAQs</h2>
             <details>
                 <summary>What should I do if my package is delayed?</summary>
-                <p>Contact the agent incharge of your Delivery at +12026016735 for assistance.</p>
+                <p>Contact the agent incharge at Global.Deliveries@proton.me</p>
             </details>
             <details>
                 <summary>How can I track my package?</summary>
@@ -362,7 +310,7 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2023 Cargo Tracking System. All rights reserved.</p>
+        <p>&copy; 2025 Cargo Tracking System. All rights reserved.</p>
         <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
     </footer>
 
@@ -382,35 +330,14 @@
         });
 
         // Dark Mode Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', function() {
+        document.getElementById('themeToggle').addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
         });
 
-        // Countdown Timer
-        let countdownTime = 24 * 60 * 60; // 24 hours in seconds
-
-        function updateCountdown() {
-            const hours = Math.floor(countdownTime / 3600);
-            const minutes = Math.floor((countdownTime % 3600) / 60);
-            const seconds = countdownTime % 60;
-
-            document.getElementById('countdown').innerText =
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-            if (countdownTime > 0) {
-                countdownTime--;
-            } else {
-                clearInterval(interval);
-            }
-        }
-
-        const interval = setInterval(updateCountdown, 1000);
-
-        // Feedback Form Submission
-        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your feedback!');
+        // Progress Bar Update
+        document.querySelectorAll('.progress-fill').forEach(progress => {
+            const width = progress.style.width;
+            progress.querySelector('.progress-percent').textContent = width;
         });
     </script>
 </body>
