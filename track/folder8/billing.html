@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Details | Global Delivery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+        }
+        
+        .billing-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border: none;
+        }
+        
+        .paid-header {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .processing-header {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .pending-header {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .total-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+            background-color: #f8fafc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .badge-paid {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+        
+        .badge-processing {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+        
+        .badge-pending {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        
+        .back-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: translateX(-3px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <div class="logo-icon" style="width: 36px; height: 36px; background-color: #2563eb; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; color: white; position: relative; overflow: hidden;">
+                    <i class="fas fa-globe"></i>
+                    <div style="position: absolute; width: 100%; height: 2px; background-color: white; top: 50%; left: -100%; transform: translateY(-50%); animation: planeFly 8s linear infinite;"></div>
+                </div>
+                Global Delivery
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-file-invoice-dollar me-2"></i>Billing Details</h2>
+            <a href="index.htm" class="btn btn-outline-primary back-btn">
+                <i class="fas fa-arrow-left me-2"></i>Back to Tracking
+            </a>
+        </div>
+
+        <!-- Paid Billing Section -->
+        <div class="card billing-card">
+            <div class="card-header paid-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>Paid Billing</h5>
+                <span class="badge badge-paid">Confirmed</span>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">These are payments that have been received and confirmed.</p>
+                
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">Delivery Fee</h6>
+                                <small class="text-muted">Basic shipping charge</small>
+                            </div>
+                            <span class="fw-bold">$8,100.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end mt-3">
+                    <div class="total-amount">
+                        Total Paid: <span class="text-success">$8,100.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Processing Billing Section -->
+        <div class="card billing-card">
+            <div class="card-header processing-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-sync-alt me-2"></i>Processing Billing</h5>
+                <span class="badge badge-processing">In Progress</span>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">These payments have been made but are being processed (not yet received).</p>
+                
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">Custom Landing Charge on Cargo</h6>
+                                <small class="text-muted">Airport landing fees</small>
+                            </div>
+                            <span class="fw-bold">$12,850.00</span>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">Cargo Parking and Offloading</h6>
+                                <small class="text-muted">Handling charges</small>
+                            </div>
+                            <span class="fw-bold">$13,570.00</span>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">Custom Clearance Broker Fee</h6>
+                                <small class="text-muted">Customs processing</small>
+                            </div>
+                            <span class="fw-bold">$6,000.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end mt-3">
+                    <div class="total-amount">
+                        Total Processing: <span class="text-warning">$32,420.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Billing Section -->
+        <div class="card billing-card">
+            <div class="card-header pending-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Pending Billing</h5>
+                <span class="badge badge-pending">Upcoming</span>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">These are upcoming charges that haven't been billed yet.</p>
+                
+                <div class="list-group">
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">Tax on cargo</h6>
+                                <small class="text-muted">Tax inposed on cargo</small>
+                            </div>
+                            <span class="fw-bold">$82,670.00</span>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="mb-1">Tax on undeclared Box</h6>
+                                <small class="text-muted">Tax inposed on undeclared Box</small>
+                            </div>
+                            <span class="fw-bold">$98,450.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2023 Global Delivery. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-decoration-none me-3">Terms of Service</a>
+                    <a href="#" class="text-decoration-none">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        @keyframes planeFly {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+    </style>
+</body>
+</html>
