@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Global Delivery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --primary-light: #4d8dd6;
+            --secondary: #2c3e50;
+            --accent: #e67e22;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: white;
+        }
+        
+        .back-button {
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .back-button:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+        
+        .notification-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 15px 20px;
+        }
+        
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .notification-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .tab:hover:not(.active) {
+            background: var(--light);
+        }
+        
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .notification-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: var(--light);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .notification-item.unread {
+            background: #e8f4ff;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .notification-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .notification-message {
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+        
+        .notification-time {
+            font-size: 12px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 5px;
+        }
+        
+        .action-btn:hover {
+            color: var(--primary);
+        }
+        
+        .settings-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .settings-section h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: var(--light);
+            margin-bottom: 10px;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .setting-desc {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #bbb;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-section a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #4a5568;
+            color: #bbb;
+            max-width: 1200px;
+            margin: 20px auto 0;
+            padding: 20px;
+        }
+        
+        .copyright a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .copyright a:hover {
+            color: var(--accent);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--light-gray);
+        }
+        
+        .empty-state p {
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .notification-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                text-align: center;
+            }
+            
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .dark-mode {
+            background: #222;
+            color: #f0f0f0;
+        }
+        
+        .dark-mode .notification-card,
+        .dark-mode .notification-item,
+        .dark-mode .setting-item {
+            background: #333;
+            color: #f0f0f0;
+        }
+        
+        .dark-mode .notification-item.unread {
+            background: #2a4365;
+        }
+        
+        .dark-mode .notification-message {
+            color: #ccc;
+        }
+        
+        .dark-mode .empty-state {
+            color: #ccc;
+        }
+        
+        .dark-mode .empty-state i {
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-shipping-fast logo-icon"></i>
+                <h1>Global Delivery</h1>
+            </div>
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Tracking
+            </a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="notification-card">
+            <div class="card-header">
+                <h2><i class="fas fa-bell"></i> Notifications</h2>
+            </div>
+            
+            <div class="card-body">
+                <div class="notification-tabs">
+                    <div class="tab active" data-tab="all">All Notifications</div>
+                    <div class="tab" data-tab="unread">Unread</div>
+                    <div class="tab" data-tab="delivery">Delivery Updates</div>
+                </div>
+                
+                <div class="notification-list" id="notification-list">
+                    <!-- Notifications will be loaded here -->
+                </div>
+                
+                <div class="settings-section">
+                    <h3><i class="fas fa-cog"></i> Notification Settings</h3>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Email Notifications</div>
+                            <div class="setting-desc">Receive important updates via email</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">SMS Notifications</div>
+                            <div class="setting-desc">Get text messages about your delivery</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Push Notifications</div>
+                            <div class="setting-desc">Receive browser notifications</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-title">Delivery Reminders</div>
+                            <div class="setting-desc">Get reminders before delivery</div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Global Delivery</h3>
+                <p>Worldwide shipping and logistics solutions for businesses and individuals. Fast, reliable, and secure delivery to your doorstep.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html"><i class="fas fa-box"></i> Package Tracking</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Locations</a>
+                <a href="#"><i class="fas fa-calendar-check"></i> Schedule Pickup</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Support Center</a>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 134 Berlin, Germany</p>
+                <p><i class="fas fa-phone"></i> +44 7477 180492</p>
+                <p><i class="fas fa-envelope"></i> global.deliveriz@gmail.com</p>
+                <div style="margin-top: 15px; display: flex; gap: 15px;">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 Global Delivery. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">Cookie Policy</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample notification data
+        const notifications = [
+            {
+                id: 1,
+                type: 'delivery',
+                title: 'Package is out for delivery',
+                message: 'Your package GD485949365 is now out for delivery and will arrive today.',
+                time: '2 hours ago',
+                read: false,
+                icon: 'fa-truck'
+            },
+            {
+                id: 2,
+                type: 'delivery',
+                title: 'Package processed at facility',
+                message: 'Your package has been processed at the local distribution center.',
+                time: '5 hours ago',
+                read: true,
+                icon: 'fa-warehouse'
+            },
+            {
+                id: 3,
+                type: 'delivery',
+                title: 'Customs clearance completed',
+                message: 'Your package has cleared customs and is on its way to the destination.',
+                time: '1 day ago',
+                read: true,
+                icon: 'fa-passport'
+            },
+            {
+                id: 4,
+                type: 'info',
+                title: 'Delivery instructions received',
+                message: 'We have received your delivery instructions for package GD485949365.',
+                time: '2 days ago',
+                read: true,
+                icon: 'fa-info-circle'
+            },
+            {
+                id: 5,
+                type: 'system',
+                title: 'Welcome to Global Delivery',
+                message: 'Thank you for choosing Global Delivery. Track your packages here.',
+                time: '3 days ago',
+                read: true,
+                icon: 'fa-shipping-fast'
+            }
+        ];
+
+        // Load notifications based on active tab
+        function loadNotifications(filter = 'all') {
+            const notificationList = document.getElementById('notification-list');
+            notificationList.innerHTML = '';
+            
+            let filteredNotifications = notifications;
+            
+            if (filter === 'unread') {
+                filteredNotifications = notifications.filter(notification => !notification.read);
+            } else if (filter === 'delivery') {
+                filteredNotifications = notifications.filter(notification => notification.type === 'delivery');
+            }
+            
+            if (filteredNotifications.length === 0) {
+                notificationList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="far fa-bell-slash"></i>
+                        <p>No notifications found</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredNotifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas ${notification.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-message">${notification.message}</div>
+                        <div class="notification-time">
+                            <i class="far fa-clock"></i> ${notification.time}
+                        </div>
+                    </div>
+                    <div class="notification-actions">
+                        <button class="action-btn mark-as-read" data-id="${notification.id}">
+                            <i class="fas ${notification.read ? 'fa-envelope-open' : 'fa-envelope'}"></i>
+                        </button>
+                        <button class="action-btn delete-notification" data-id="${notification.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                notificationList.appendChild(notificationItem);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.mark-as-read').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const notification = notifications.find(n => n.id === id);
+                    if (notification) {
+                        notification.read = !notification.read;
+                        loadNotifications(filter);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.delete-notification').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const index = notifications.findIndex(n => n.id === id);
+                    if (index !== -1) {
+                        notifications.splice(index, 1);
+                        loadNotifications(filter);
+                    }
+                });
+            });
+        }
+        
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                loadNotifications(this.getAttribute('data-tab'));
+            });
+        });
+        
+        // Dark mode toggle (if needed)
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            // Check for saved theme preference
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            }
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotifications();
+        });
+    </script>
+</body>
+</html>
