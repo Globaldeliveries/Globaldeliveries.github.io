@@ -995,7 +995,7 @@ window.smartsupp||(function(d) {
         }
 
         // Countdown Timer
-        let countdownTime = 24 * 60 * 60; // 6 hours in seconds
+        let countdownTime = 17 * 60 * 60; // 6 hours in seconds
 
         function updateCountdown() {
             const hours = Math.floor(countdownTime / 3600);
@@ -1018,7 +1018,7 @@ window.smartsupp||(function(d) {
         function animateProgress() {
             const progressBar = document.getElementById('delivery-progress');
             let width = 0;
-            const targetWidth = 10; // 10% progress
+            const targetWidth = 40; // 40% progress
             const interval = setInterval(() => {
                 if (width >= targetWidth) {
                     clearInterval(interval);
@@ -1081,7 +1081,7 @@ window.smartsupp||(function(d) {
                 </div>
                 <div class="history-content">
                     <div class="history-title">Package in transit to destination country</div>
-                    <div class="history-date">Just now</div>
+                    <div class="history-date">September 26, 2025</div>
                     <div class="history-location">International Air Transit</div>
                 </div>
             `;
