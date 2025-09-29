@@ -995,7 +995,7 @@ window.smartsupp||(function(d) {
         }
 
         // Countdown Timer
-        let countdownTime = 17 * 60 * 60; // 6 hours in seconds
+        let countdownTime = 1 * 60 * 60; // 6 hours in seconds
 
         function updateCountdown() {
             const hours = Math.floor(countdownTime / 3600);
@@ -1018,7 +1018,7 @@ window.smartsupp||(function(d) {
         function animateProgress() {
             const progressBar = document.getElementById('delivery-progress');
             let width = 0;
-            const targetWidth = 40; // 40% progress
+            const targetWidth = 90; // 90% progress
             const interval = setInterval(() => {
                 if (width >= targetWidth) {
                     clearInterval(interval);
