@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Csomagkövetés - Global Delivery</title>
+    <title>Package Tracking - Global Delivery</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* General Styles */
         :root {
             --primary: #0056b3;
+            --primary-light: #4d8dd6;
             --secondary: #2c3e50;
             --accent: #e67e22;
             --light: #f8f9fa;
@@ -18,23 +21,29 @@
             --warning: #ffc107;
             --danger: #dc3545;
             --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background-color: #f5f7f9;
             color: #333;
             line-height: 1.6;
+            transition: var(--transition);
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
         }
@@ -54,17 +63,19 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
         .logo {
             display: flex;
             align-items: center;
+            gap: 10px;
         }
         
         .logo h1 {
             font-size: 24px;
             font-weight: 700;
-            margin-left: 10px;
         }
         
         .logo-icon {
@@ -74,19 +85,22 @@
         
         .tracking-card {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
             margin-top: 20px;
             overflow: hidden;
+            transition: var(--transition);
         }
         
         .card-header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .card-header h2 {
@@ -98,6 +112,9 @@
             font-weight: 700;
             letter-spacing: 1px;
             font-size: 16px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
         }
         
         .card-body {
@@ -113,16 +130,21 @@
         
         .info-box {
             background: var(--light);
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: var(--border-radius);
+            padding: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
         }
         
         .info-title {
             font-size: 16px;
             color: var(--gray);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .info-content {
@@ -130,31 +152,29 @@
         }
         
         .info-content p {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-content strong {
+            color: var(--secondary);
         }
         
         .map-container {
             height: 350px;
             background: #eee;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             overflow: hidden;
             margin-bottom: 25px;
             position: relative;
         }
         
-        .map-placeholder {
+        #gmap_canvas {
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%),
-                        linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 75%, #e0e0e0 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--gray);
-            font-size: 16px;
-            flex-direction: column;
+            border: none;
         }
         
         .status-timeline {
@@ -172,8 +192,9 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: #ddd;
+            background: var(--light-gray);
             z-index: 1;
+            border-radius: 2px;
         }
         
         .status-progress {
@@ -184,6 +205,8 @@
             background: var(--success);
             z-index: 2;
             width: 75%;
+            border-radius: 2px;
+            transition: width 1s ease;
         }
         
         .status-step {
@@ -198,19 +221,21 @@
             height: 40px;
             border-radius: 50%;
             background: white;
-            border: 4px solid #ddd;
+            border: 4px solid var(--light-gray);
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0 auto 8px;
             font-size: 16px;
             color: var(--gray);
+            transition: var(--transition);
         }
         
         .status-step.active .status-icon {
             border-color: var(--success);
             background: var(--success);
             color: white;
+            box-shadow: 0 0 0 5px rgba(40, 167, 69, 0.2);
         }
         
         .status-step.completed .status-icon {
@@ -222,6 +247,7 @@
         .status-name {
             font-size: 13px;
             font-weight: 500;
+            margin-bottom: 5px;
         }
         
         .status-date {
@@ -231,15 +257,15 @@
         
         .package-details {
             background: var(--light);
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             padding: 20px;
             margin-top: 20px;
         }
         
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
         
         .detail-item {
@@ -249,6 +275,10 @@
         .detail-label {
             font-size: 14px;
             color: var(--gray);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .detail-value {
@@ -259,15 +289,15 @@
         footer {
             background: var(--secondary);
             color: white;
-            padding: 30px 0;
+            padding: 40px 0 20px;
             margin-top: 40px;
         }
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
@@ -291,14 +321,17 @@
         
         .footer-section p, .footer-section a {
             color: #bbb;
-            margin-bottom: 8px;
-            display: block;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
         .footer-section a:hover {
             color: white;
+            transform: translateX(5px);
         }
         
         .copyright {
@@ -307,15 +340,25 @@
             margin-top: 20px;
             border-top: 1px solid #4a5568;
             color: #bbb;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 20px auto 0;
-            padding: 0 20px;
+            padding: 20px;
+        }
+        
+        .copyright a {
+            color: #bbb;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .copyright a:hover {
+            color: var(--accent);
         }
         
         .note {
             background-color: #fff3cd;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             margin: 20px 0;
             text-align: left;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -329,6 +372,9 @@
         
         .progress-container {
             margin: 20px 0;
+            background: var(--light);
+            padding: 15px;
+            border-radius: var(--border-radius);
         }
         
         .progress-bar {
@@ -336,13 +382,15 @@
             background-color: #e9ecef;
             border-radius: 5px;
             overflow: hidden;
+            margin: 10px 0;
         }
         
         .progress {
             height: 100%;
-            background-color: var(--success);
+            background: linear-gradient(90deg, var(--primary), var(--success));
             width: 75%;
             border-radius: 5px;
+            transition: width 1s ease;
         }
         
         .countdown {
@@ -350,6 +398,53 @@
             font-weight: bold;
             color: var(--primary);
             margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--light);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            width: fit-content;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
         }
         
         /* Mobile Responsive Styles */
@@ -357,6 +452,7 @@
             .header-content {
                 flex-direction: column;
                 text-align: center;
+                gap: 15px;
             }
             
             .info-grid, .detail-grid, .footer-content {
@@ -366,6 +462,7 @@
             .status-timeline {
                 flex-direction: column;
                 align-items: flex-start;
+                margin: 20px 0;
             }
             
             .status-timeline::before, .status-progress {
@@ -381,6 +478,7 @@
                 align-items: center;
                 margin-bottom: 25px;
                 width: 100%;
+                text-align: left;
             }
             
             .status-icon {
@@ -400,29 +498,47 @@
             .map-container {
                 height: 250px;
             }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
         
         /* Dark Mode */
         .dark-mode {
-            background: #333;
-            color: #fff;
+            background: #222;
+            color: #f0f0f0;
         }
         
         .dark-mode .tracking-card,
         .dark-mode .info-box,
-        .dark-mode .package-details {
-            background: #444;
+        .dark-mode .package-details,
+        .dark-mode .progress-container {
+            background: #333;
+            color: #f0f0f0;
+        }
+        
+        .dark-mode .info-content strong {
             color: #fff;
         }
         
         .dark-mode .note {
-            background: #555;
+            background: #444;
             color: #fff;
         }
         
         .dark-mode .info-title,
         .dark-mode .detail-label {
             color: #ccc;
+        }
+        
+        .dark-mode .progress-bar {
+            background-color: #444;
         }
         
         /* Animations */
@@ -441,14 +557,27 @@
             animation: fadeIn 0.5s ease-in-out;
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
         /* Marquee */
         .marquee {
             background-color: #d4edda;
             border: 2px solid #c3e6cb;
-            padding: 10px;
+            padding: 12px;
             margin: 20px 0;
-            border-radius: 5px;
+            border-radius: var(--border-radius);
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .marquee-content {
@@ -457,19 +586,132 @@
             animation: marquee 15s linear infinite;
             font-weight: bold;
             color: #155724;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         @keyframes marquee {
             0% { transform: translate(0, 0); }
             100% { transform: translate(-100%, 0); }
         }
+        
+        /* Loading Animation */
+        .loading-spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--primary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Tracking History */
+        .tracking-history {
+            margin: 25px 0;
+        }
+        
+        .history-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+        
+        .history-content {
+            flex: 1;
+        }
+        
+        .history-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .history-date {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Print Styles */
+        @media print {
+            header, footer, .action-buttons, .marquee {
+                display: none !important;
+            }
+            
+            body, .tracking-card, .info-box, .package-details {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+            }
+            
+            .container {
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+            }
+            
+            .tracking-card {
+                border: 1px solid #ddd;
+            }
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
     <!-- Loading Animation -->
     <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column;">
-        <div style="border: 8px solid #f3f3f3; border-top: 8px solid #0056b3; border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite;"></div>
-        <p style="margin-top: 20px; font-size: 18px;">Csomagkövetés betöltése...</p>
+        <div class="loading-spinner"></div>
+        <p style="margin-top: 20px; font-size: 18px;">Loading package tracking...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">PDF generated successfully!</span>
     </div>
 
     <header>
@@ -478,8 +720,8 @@
                 <i class="fas fa-shipping-fast logo-icon"></i>
                 <h1>Global Delivery</h1>
             </div>
-            <button id="themeToggle" style="background: #e67e22; color: #fff; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: 500;">
-                <i class="fas fa-moon"></i> Sötét mód
+            <button id="themeToggle" class="btn btn-primary">
+                <i class="fas fa-moon"></i> Dark Mode
             </button>
         </div>
     </header>
@@ -487,93 +729,139 @@
     <div class="container">
         <div class="tracking-card">
             <div class="card-header">
-                <h2>Csomagkövetés</h2>
-                <div class="tracking-number">GD485949365</div>
+                <h2>Package Tracking</h2>
+                <div class="tracking-number">GD48303849365</div>
             </div>
             
             <div class="card-body">
                 <div class="marquee">
+                    <i class="fas fa-truck"></i>
                     <div class="marquee-content">
-                        <i class="fas fa-truck"></i> Kiszállítás folyamatban
+                        Delivery in progress - Your package is on the way to the distribution center
                     </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="notificationsBtn">
+                        <i class="fas fa-bell"></i> Get Notifications
+                    </button>
+                    <button class="btn btn-outline" id="printBtn">
+                        <i class="fas fa-print"></i> Print Details
+                    </button>
                 </div>
                 
                 <div class="progress-container">
-                    <p>Kiszállítási állapot:</p>
+                    <p>Delivery Status: <strong>In Transit</strong></p>
                     <div class="progress-bar">
-                        <div class="progress"></div>
+                        <div class="progress" id="delivery-progress"></div>
                     </div>
-                
-                </div>
                 
                 <div class="info-grid">
                     <div class="info-box">
-                        <div class="info-title">Címzett adatai</div>
+                        <div class="info-title">
+                            <i class="fas fa-user"></i> Recipient Information
+                        </div>
                         <div class="info-content">
-                            <p><strong>CZÉKMÁNY MÓNIKA</strong></p>
-                            <p><i class="fas fa-map-marker-alt"></i> 3350 KÁL,FŐ ÚT ALSÓ 72.SZMAGYARORSZÁG</p>
-                            <p><i class="fas fa-phone"></i> 0630 ***4294</p>
-                            <p><i class="fas fa-envelope"></i> monikacz****@***ail.com</p>
+                            <p><strong>Jaan Sturgis</strong></p>
+                            <p><i class="fas fa-map-marker-alt"></i> 841 19th Street #1 Rock Island, IL 61201</p>
+                            <p><i class="fas fa-phone"></i> ********</p>
+                            <p><i class="fas fa-envelope"></i> Peterja*****7@yahoo.com</p>
                         </div>
                     </div>
                     
                     <div class="info-box">
-                        <div class="info-title">Feladó adatai</div>
+                        <div class="info-title">
+                            <i class="fas fa-user-circle"></i> Sender Information
+                        </div>
                         <div class="info-content">
-                            <p><strong>Dominik loelf</strong></p>
-                            <p><i class="fas fa-map-marker-alt"></i> European border</p>
-                            <p><i class="fas fa-box"></i> Jelenlegi helyzet: Európai határok</p>
+                            <p><strong>sgt rogers Harvey</strong></p>
+                            <p><i class="fas fa-map-marker-alt"></i>  Baghdad iraq</p>
+                            <p><i class="fas fa-box"></i> xxxxxxx</p>
                             <p><i class="fas fa-phone"></i> xxxxxxxx</p>
                         </div>
                     </div>
                 </div>
                 
                 <div class="info-box">
-                    <div class="info-title">Céginformációk</div>
+                    <div class="info-title">
+                        <i class="fas fa-building"></i> Company Information
+                    </div>
                     <div class="info-content">
-                        <p><strong>Albert Lambert (Ügyintéző)</strong></p>
-                        <p><i class="fas fa-envelope"></i> global.delive**@gmail.com/+44 7477 180*** (Ügyintéző kapcsolat)</p>
-                        <p><i class="fas fa-globe-europe"></i> Magyarország</p>
+                        <p><strong> Richard Donford (Diplomat)</strong></p>
+                        <p><i class="fas fa-envelope"></i> xxxxxxx</p>
+                        <p><i class="fas fa-phone"></i> +12522162061 (Diplomat Contact)</p>
+                        <p><i class="fas fa-globe-europe"></i> Iraq </p>
                     </div>
                 </div>
                 
-                <h3>Csomag adatai</h3>
+                <h3><i class="fas fa-box-open"></i> Package Details</h3>
                 <div class="package-details">
                     <div class="detail-grid">
                         <div class="detail-item">
-                            <div class="detail-label">Csomag súlya</div>
-                            <div class="detail-value">12 kg</div>
-                        </div>
-                    
-                        
-                        <div class="detail-item">
-                            <div class="detail-label">Tartalom</div>
-                            <div class="detail-value">Családi értékek</div>
+                            <div class="detail-label">
+                                <i class="fas fa-weight-hanging"></i> Package Weight
+                            </div>
+                            <div class="detail-value">Null</div>
                         </div>
                         
                         <div class="detail-item">
-                            <div class="detail-label">Szállítási mód</div>
-                            <div class="detail-value">Expressz</div>
+                            <div class="detail-label">
+                                <i class="fas fa-cube"></i> Dimensions
+                            </div>
+                            <div class="detail-value">Null</div>
                         </div>
                         
                         <div class="detail-item">
-                            <div class="detail-label">Várható kézbesítés</div>
-                            <div class="detail-value">2025. szeptember 1.</div>
+                            <div class="detail-label">
+                                <i class="fas fa-gift"></i> Contents
+                            </div>
+                            <div class="detail-value">Null</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-shipping-fast"></i> Shipping Method
+                            </div>
+                            <div class="detail-value">Express</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-calendar-check"></i> Estimated Delivery
+                            </div>
+                            <div class="detail-value">March 12, 2025</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fas fa-receipt"></i> Reference Number
+                            </div>
+                            <div class="detail-value">REF-984523</div>
                         </div>
                     </div>
                 </div>
                 
-                <h3>Csomag helyzete</h3>
+                <h3><i class="fas fa-map-marked-alt"></i> Package Location</h3>
                 <div class="map-container">
-                    <div class="map-placeholder">
-                        <i class="fas fa-map-marker-alt" style="font-size: 24px; margin-bottom: 10px;"></i>
-                        <span>A csomag jelenleg az elosztó központhoz tart</span>
+                    <iframe src="https://maps.google.com/maps?q=Iraq=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
+                </div>
+                
+                <h3><i class="fas fa-history"></i> Tracking History</h3>
+                 <div class="history-item">
+                        <div class="history-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="history-content">
+                            <div class="history-title">Shipping information received</div>
+                            <div class="history-date">March 12, 20256/div>
+                            <div class="history-location">Electronic Data</div>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="note">
-                    <p><span class="highlight">MEGJEGYZÉS</span></p>
-                    <p>Csomagját magas prioritású küldeményként regisztráltuk, és Magyarországon belül szállítható. Amint megérkezünk Önhöz, értesítjük.</p>
+                    <p><span class="highlight"><i class="fas fa-info-circle"></i> NOTE</span></p>
+                    <p>Your package has been registered as a high-priority shipment and is deliverable within the USA. We will notify you as soon as we arrive at your location.</p>
                 </div>
             </div>
         </div>
@@ -583,27 +871,34 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Global Delivery</h3>
-                <p>Világszintű szállítási és logisztikai megoldások vállalkozások és magánszemélyek számára. Gyors, megbízható és biztonságos kézbesítés a kapujáig.</p>
+                <p>Worldwide shipping and logistics solutions for businesses and individuals. Fast, reliable, and secure delivery to your doorstep.</p>
             </div>
             
             <div class="footer-section">
-                <h3>Gyorslinkek</h3>
-                <a href="#"><i class="fas fa-box"></i> Csomagkövetés</a>
-                <a href="#"><i class="fas fa-map-marker-alt"></i> Helyszínek</a>
-                <a href="#"><i class="fas fa-calendar-check"></i> Feladás időpont egyeztetése</a>
+                <h3>Quick Links</h3>
+                <a href="#"><i class="fas fa-box"></i> Package Tracking</a>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Locations</a>
+                <a href="#"><i class="fas fa-calendar-check"></i> Schedule Pickup</a>
+                <a href="#"><i class="fas fa-question-circle"></i> Support Center</a>
             </div>
             
             <div class="footer-section">
-                <h3>Kapcsolat</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 134 Berlin Germany</p>
-                <p><i class="fas fa-phone"></i> +44 7477 180492</p>
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-map-marker-alt"></i> District of columbia, Washington USA</p>
+                <p><i class="fas fa-phone"></i> +12522162061</p>
                 <p><i class="fas fa-envelope"></i> global.deliveriz@gmail.com</p>
+                <div style="margin-top: 15px; display: flex; gap: 15px;">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
             </div>
         </div>
         
         <div class="copyright">
-            <p>&copy; 2023 Global Delivery. Minden jog fenntartva.</p>
-            <p><a href="#">Adatvédelmi irányelvek</a> | <a href="#">Felhasználási feltételek</a></p>
+            <p>&copy; 2023 Global Delivery. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a> | <a href="#">Cookie Policy</a></p>
         </div>
     </footer>
 
@@ -618,11 +913,19 @@
         themeToggle.addEventListener('click', function() {
             document.body.classList.toggle('dark-mode');
             if (document.body.classList.contains('dark-mode')) {
-                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Világos mód';
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+                localStorage.setItem('theme', 'dark');
             } else {
-                themeToggle.innerHTML = '<i class="fas fa-moon"></i> Sötét mód';
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('theme', 'light');
             }
         });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+        }
 
         // Countdown Timer
         let countdownTime = 6 * 60 * 60; // 6 hours in seconds
@@ -646,9 +949,9 @@
         
         // Animation for the progress bar
         function animateProgress() {
-            const progressBar = document.querySelector('.progress');
+            const progressBar = document.getElementById('delivery-progress');
             let width = 0;
-            const targetWidth = 20; // 20% progress
+            const targetWidth = 1; // 75% progress
             const interval = setInterval(() => {
                 if (width >= targetWidth) {
                     clearInterval(interval);
@@ -662,7 +965,70 @@
         // Initialize animations when page loads
         window.onload = function() {
             animateProgress();
+            updateCountdown();
         };
+        
+        // Print/Generate PDF functionality
+        document.getElementById('printBtn').addEventListener('click', function() {
+            // Show generating message
+            showToast('Generating PDF...');
+            
+            // Use html2pdf to generate PDF
+            const element = document.querySelector('.tracking-card');
+            const opt = {
+                margin: 10,
+                filename: 'delivery-details-GD485949365.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            // Generate PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                showToast('PDF generated successfully!');
+            });
+        });
+        
+        // Notifications button functionality
+        document.getElementById('notificationsBtn').addEventListener('click', function() {
+            window.location.href = 'notification.html';
+        });
+        
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Simulate live updates
+        setTimeout(function() {
+            // Add a new tracking history item
+            const historyContainer = document.querySelector('.tracking-history');
+            const newItem = document.createElement('div');
+            newItem.className = 'history-item';
+            newItem.innerHTML = `
+                <div class="history-icon">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="history-content">
+                    <div class="history-title">Package in transit to destination country</div>
+                    <div class="history-date">Just now</div>
+                    <div class="history-location">International Air Transit</div>
+                </div>
+            `;
+            historyContainer.prepend(newItem);
+            
+            // Show notification
+            const marquee = document.querySelector('.marquee-content');
+            marquee.innerHTML = '<i class="fas fa-plane"></i> Package status updated - In transit to destination country';
+        }, 5000);
     </script>
 </body>
 </html>
