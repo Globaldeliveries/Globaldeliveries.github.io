@@ -393,6 +393,11 @@
             transition: width 1s ease;
         }
         
+        /* Red progress bar for ON HOLD */
+        .progress-red {
+            background: linear-gradient(90deg, #dc3545, #ff6b6b) !important;
+        }
+        
         .countdown {
             font-size: 18px;
             font-weight: bold;
@@ -567,6 +572,70 @@
             animation: pulse 2s infinite;
         }
         
+        /* ECHO/BEEPING ANIMATION FOR STATUS TEXT - GREEN */
+        @keyframes echoBeepGreen {
+            0% {
+                text-shadow: 0 0 0px #28a745;
+                transform: scale(1);
+            }
+            25% {
+                text-shadow: 0 0 8px #28a745, 0 0 15px #28a745;
+                transform: scale(1.08);
+            }
+            50% {
+                text-shadow: 0 0 3px #28a745, 0 0 10px #28a745;
+                transform: scale(1.03);
+            }
+            75% {
+                text-shadow: 0 0 10px #28a745, 0 0 20px #28a745;
+                transform: scale(1.08);
+            }
+            100% {
+                text-shadow: 0 0 0px #28a745;
+                transform: scale(1);
+            }
+        }
+        
+        /* ECHO/BEEPING ANIMATION FOR STATUS TEXT - RED */
+        @keyframes echoBeepRed {
+            0% {
+                text-shadow: 0 0 0px #dc3545;
+                transform: scale(1);
+            }
+            25% {
+                text-shadow: 0 0 8px #dc3545, 0 0 15px #dc3545;
+                transform: scale(1.08);
+            }
+            50% {
+                text-shadow: 0 0 3px #dc3545, 0 0 10px #dc3545;
+                transform: scale(1.03);
+            }
+            75% {
+                text-shadow: 0 0 10px #dc3545, 0 0 20px #dc3545;
+                transform: scale(1.08);
+            }
+            100% {
+                text-shadow: 0 0 0px #dc3545;
+                transform: scale(1);
+            }
+        }
+        
+        .status-echo-green {
+            display: inline-block;
+            animation: echoBeepGreen 0.8s ease-in-out infinite;
+            color: #28a745;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+        
+        .status-echo-red {
+            display: inline-block;
+            animation: echoBeepRed 0.8s ease-in-out infinite;
+            color: #dc3545;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+        
         /* Marquee */
         .marquee {
             background-color: #d4edda;
@@ -583,12 +652,18 @@
         .marquee-content {
             display: inline-block;
             padding-left: 100%;
-            animation: marquee 15s linear infinite;
             font-weight: bold;
             color: #155724;
             display: flex;
             align-items: center;
             gap: 8px;
+            animation: marquee 15s linear infinite;
+        }
+        
+        /* Class to STOP marquee animation when on hold */
+        .marquee-content.stop-marquee {
+            animation: none !important;
+            padding-left: 0 !important;
         }
         
         @keyframes marquee {
@@ -730,13 +805,13 @@
         <div class="tracking-card">
             <div class="card-header">
                 <h2>Package Tracking</h2>
-                <div class="tracking-number">GD707676005</div>
+                <div class="tracking-number">G993599898905</div>
             </div>
             
             <div class="card-body">
                 <div class="marquee">
                     <i class="fas fa-truck"></i>
-                    <div class="marquee-content">
+                    <div class="marquee-content" id="marqueeContent">
                         Delivery in progress - Your package is on the way to the distribution center
                     </div>
                 </div>
@@ -751,10 +826,11 @@
                 </div>
                 
                 <div class="progress-container">
-                    <p>Delivery Status: <strong>In Transit</strong></p>
+                    <p>Delivery Status: <strong id="statusText">In Transit</strong></p>
                     <div class="progress-bar">
                         <div class="progress" id="delivery-progress"></div>
                     </div>
+                </div>
                 
                 <div class="info-grid">
                     <div class="info-box">
@@ -762,10 +838,10 @@
                             <i class="fas fa-user"></i> Recipient Information
                         </div>
                         <div class="info-content">
-                            <p><strong>  Anthony Palmarini</strong></p>
-                            <p><i class="fas fa-map-marker-alt"></i>820 Durham Road RM.217. Newtown Pa,18940</p>
-                            <p><i class="fas fa-phone"></i>215****6134</p>
-                            <p><i class="fas fa-envelope"></i> anthonypal****30@gmail.com</p>
+                            <p><strong>Wanda W Nenner</strong></p>
+                            <p><i class="fas fa-map-marker-alt"></i>2611 Fallston Road MD</p>
+                            <p><i class="fas fa-phone"></i> 4*******4439</p>
+                            <p><i class="fas fa-envelope"></i>wnen*****mail.com</p>
                         </div>
                     </div>
                     
@@ -774,8 +850,8 @@
                             <i class="fas fa-user-circle"></i> Sender Information
                         </div>
                         <div class="info-content">
-                            <p><strong>Sgt major Rogers M Harvey</strong></p>
-                            <p><i class="fas fa-map-marker-alt"></i>  Baghdad iraq</p>
+                            <p><strong>Elon Musk</strong></p>
+                            <p><i class="fas fa-map-marker-alt"></i> United States</p>
                             <p><i class="fas fa-box"></i> xxxxxxx</p>
                             <p><i class="fas fa-phone"></i> xxxxxxxx</p>
                         </div>
@@ -790,7 +866,7 @@
                         <p><strong> Richard Donford (Diplomat)</strong></p>
                         <p><i class="fas fa-envelope"></i> xxxxxxx</p>
                         <p><i class="fas fa-phone"></i> +12029845700 (Diplomat Contact)</p>
-                        <p><i class="fas fa-globe-europe"></i> Baghdad iraq </p>
+                        <p><i class="fas fa-globe-europe"></i> United States</p>
                     </div>
                 </div>
                 
@@ -829,7 +905,7 @@
                             <div class="detail-label">
                                 <i class="fas fa-calendar-check"></i> Estimated Delivery
                             </div>
-                            <div class="detail-value">April 6 ,2026</div>
+                            <div class="detail-value">May 4, 2026</div>
                         </div>
                         
                         <div class="detail-item">
@@ -843,17 +919,18 @@
                 
                 <h3><i class="fas fa-map-marked-alt"></i> Package Location</h3>
                 <div class="map-container">
-                    <iframe src="https://maps.google.com/maps?q=Baghdad iraq=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
+                    <iframe src="https://maps.google.com/maps?q=Baltimore/Washington International Thurgood Marshall Airport (BWI)=&z=8&ie=UTF8&iwloc=&output=embed" id="gmap_canvas"></iframe>
                 </div>
                 
                 <h3><i class="fas fa-history"></i> Tracking History</h3>
-                 <div class="history-item">
+                <div class="tracking-history">
+                    <div class="history-item">
                         <div class="history-icon">
                             <i class="fas fa-file-alt"></i>
                         </div>
                         <div class="history-content">
                             <div class="history-title">Shipping information received</div>
-                            <div class="history-date">April 3, 2026 </div>
+                            <div class="history-date">null </div>
                             <div class="history-location">Electronic Data</div>
                         </div>
                     </div>
@@ -903,6 +980,14 @@
     </footer>
 
     <script>
+        // ============================================================
+        // ⚡⚡⚡ CHANGE THIS VARIABLE TO CONTROL THE STATUS ⚡⚡⚡
+        // Set to "IN_TRANSIT" for green echoing effect + moving marquee
+        // Set to "ON_HOLD" for red echoing effect + STOPPED marquee + red progress bar
+        // ============================================================
+        const shipmentStatus = "ON_HOLD";  // CHANGE TO "ON_HOLD" TO SEE THE RED EFFECT
+        // ============================================================
+        
         // Loading Animation
         window.addEventListener('load', function() {
             document.getElementById('loading').style.display = 'none';
@@ -935,8 +1020,10 @@
             const minutes = Math.floor((countdownTime % 3600) / 60);
             const seconds = countdownTime % 60;
 
-            document.getElementById('countdown').innerText =
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if(document.getElementById('countdown')) {
+                document.getElementById('countdown').innerText =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
 
             if (countdownTime > 0) {
                 countdownTime--;
@@ -948,32 +1035,99 @@
         const interval = setInterval(updateCountdown, 1000);
         
         // Animation for the progress bar
-        function animateProgress() {
+        function animateProgress(progressWidth) {
             const progressBar = document.getElementById('delivery-progress');
-            let width = 0;
-            const targetWidth = 1; // 75% progress
-            const interval = setInterval(() => {
-                if (width >= targetWidth) {
-                    clearInterval(interval);
-                } else {
-                    width++;
-                    progressBar.style.width = width + '%';
-                }
-            }, 30);
+            if(progressBar) {
+                progressBar.style.width = progressWidth + '%';
+            }
         }
         
-        // Initialize animations when page loads
+        // Initialize based on shipmentStatus
+        function initializeStatus() {
+            const statusTextElement = document.getElementById('statusText');
+            const marqueeContent = document.getElementById('marqueeContent');
+            const progressFill = document.getElementById('delivery-progress');
+            const marqueeContainer = document.querySelector('.marquee');
+            
+            if (shipmentStatus === "ON_HOLD") {
+                // RED echoing effect
+                statusTextElement.innerHTML = '<span class="status-echo-red">ON HOLD</span>';
+                
+                // STOP marquee animation
+                marqueeContent.classList.add('stop-marquee');
+                marqueeContent.innerHTML = '⛔ ON HOLD - Your package is currently on hold at Baltimore/Washington International Thurgood Marshall Airport (BWI). You are required to pay a mandatory customs landing fee of $20,000. Please contact the agent in charge of your package for further instructions..';
+                
+                // Change marquee background to red
+                if(marqueeContainer) {
+                    marqueeContainer.style.backgroundColor = '#f8d7da';
+                    marqueeContainer.style.borderColor = '#f5c6cb';
+                }
+                
+                // Change progress bar to RED and set to 45%
+                if(progressFill) {
+                    progressFill.classList.add('progress-red');
+                    progressFill.style.width = '45%';
+                }
+                
+                // Add history entry
+                addHistoryEntry('Status - ON HOLD - Delivery temporarily paused');
+                
+            } else {
+                // Default: IN TRANSIT - GREEN echoing effect
+                statusTextElement.innerHTML = '<span class="status-echo-green">IN TRANSIT</span>';
+                
+                // Ensure marquee is moving
+                marqueeContent.classList.remove('stop-marquee');
+                marqueeContent.innerHTML = 'Delivery in progress - Your package is on the way to the distribution center';
+                
+                // Reset marquee background to green
+                if(marqueeContainer) {
+                    marqueeContainer.style.backgroundColor = '#d4edda';
+                    marqueeContainer.style.borderColor = '#c3e6cb';
+                }
+                
+                // Progress bar green at 75%
+                if(progressFill) {
+                    progressFill.classList.remove('progress-red');
+                    progressFill.style.width = '75%';
+                }
+                
+                // Add history entry
+                addHistoryEntry('Status set to IN TRANSIT - Package is moving through network');
+            }
+        }
+        
+        // Helper function to add history entries
+        function addHistoryEntry(message) {
+            const historyContainer = document.querySelector('.tracking-history');
+            const newItem = document.createElement('div');
+            newItem.className = 'history-item';
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            newItem.innerHTML = `
+                <div class="history-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="history-content">
+                    <div class="history-title">${message}</div>
+                    <div class="history-date">null</div>
+                    <div class="history-location">System Update</div>
+                </div>
+            `;
+            historyContainer.prepend(newItem);
+        }
+        
+        // Call initialize on page load
         window.onload = function() {
-            animateProgress();
+            initializeStatus();
+            animateProgress(shipmentStatus === "ON_HOLD" ? 45 : 75);
             updateCountdown();
         };
         
         // Print/Generate PDF functionality
         document.getElementById('printBtn').addEventListener('click', function() {
-            // Show generating message
             showToast('Generating PDF...');
             
-            // Use html2pdf to generate PDF
             const element = document.querySelector('.tracking-card');
             const opt = {
                 margin: 10,
@@ -983,7 +1137,6 @@
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
-            // Generate PDF
             html2pdf().set(opt).from(element).save().then(() => {
                 showToast('PDF generated successfully!');
             });
@@ -1009,25 +1162,23 @@
         
         // Simulate live updates
         setTimeout(function() {
-            // Add a new tracking history item
             const historyContainer = document.querySelector('.tracking-history');
-            const newItem = document.createElement('div');
-            newItem.className = 'history-item';
-            newItem.innerHTML = `
-                <div class="history-icon">
-                    <i class="fas fa-plane"></i>
-                </div>
-                <div class="history-content">
-                    <div class="history-title">Package in transit to destination country</div>
-                    <div class="history-date">Just now</div>
-                    <div class="history-location">International Air Transit</div>
-                </div>
-            `;
-            historyContainer.prepend(newItem);
-            
-            // Show notification
-            const marquee = document.querySelector('.marquee-content');
-            marquee.innerHTML = '<i class="fas fa-plane"></i> Package status updated - In transit to destination country';
+            const existingItems = historyContainer.children.length;
+            if(existingItems < 3) {
+                const newItem = document.createElement('div');
+                newItem.className = 'history-item';
+                newItem.innerHTML = `
+                    <div class="history-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div class="history-content">
+                        <div class="history-title">Package in transit to destination country</div>
+                        <div class="history-date">null</div>
+                        <div class="history-location">International Air Transit</div>
+                    </div>
+                `;
+                historyContainer.prepend(newItem);
+            }
         }, 5000);
     </script>
 </body>
