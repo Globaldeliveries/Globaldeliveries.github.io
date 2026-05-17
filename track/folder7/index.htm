@@ -805,7 +805,7 @@
         <div class="tracking-card">
             <div class="card-header">
                 <h2>Package Tracking</h2>
-                <div class="tracking-number">G99355684000005</div>
+                <div class="tracking-number">G997363500085</div>
             </div>
             
             <div class="card-body">
@@ -838,10 +838,10 @@
                             <i class="fas fa-user"></i> Recipient Information
                         </div>
                         <div class="info-content">
-                            <p><strong>Edward Mirand</strong></p>
-                            <p><i class="fas fa-map-marker-alt"></i>330 Lois St Apt 5 Twin Falls, Idaho 83301</p>
-                            <p><i class="fas fa-phone"></i>719******540</p>
-                            <p><i class="fas fa-envelope"></i>Null</p>
+                            <p><strong>Adam Christopher Prather</strong></p>
+                            <p><i class="fas fa-map-marker-alt"></i>599 E. Broadway, Eugene OR, 97401</p>
+                            <p><i class="fas fa-phone"></i>14582****90</p>
+                            <p><i class="fas fa-envelope"></i>digitalfore******@gmail.com</p>
                         </div>
                     </div>
                     
@@ -866,7 +866,7 @@
                         <p><strong> Richard Donford (Diplomat)</strong></p>
                         <p><i class="fas fa-envelope"></i> xxxxxxx</p>
                         <p><i class="fas fa-phone"></i> +12029845700 (Diplomat Contact)</p>
-                        <p><i class="fas fa-globe-europe"></i> United States</p>
+                        <p><i class="fas fa-globe-europe"></i>Baghdad iraq</p>
                     </div>
                 </div>
                 
@@ -905,7 +905,7 @@
                             <div class="detail-label">
                                 <i class="fas fa-calendar-check"></i> Estimated Delivery
                             </div>
-                            <div class="detail-value">May 4, 2026</div>
+                            <div class="detail-value">May 17, 2026</div>
                         </div>
                         
                         <div class="detail-item">
@@ -930,7 +930,7 @@
                         </div>
                         <div class="history-content">
                             <div class="history-title">Shipping information received</div>
-                            <div class="history-date">May 2, 2026 </div>
+                            <div class="history-date">May 18, 2026 </div>
                             <div class="history-location">Electronic Data</div>
                         </div>
                     </div>
@@ -985,7 +985,7 @@
         // Set to "IN_TRANSIT" for green echoing effect + moving marquee
         // Set to "ON_HOLD" for red echoing effect + STOPPED marquee + red progress bar
         // ============================================================
-        const shipmentStatus = "ON_HOLD";  // CHANGE TO "ON_HOLD" TO SEE THE RED EFFECT
+        const shipmentStatus = "IN_TRANSIT";  // CHANGE TO "ON_HOLD" TO SEE THE RED EFFECT
         // ============================================================
         
         // Loading Animation
@@ -1051,7 +1051,7 @@
             
             if (shipmentStatus === "ON_HOLD") {
                 // RED echoing effect
-                statusTextElement.innerHTML = '<span class="status-echo-red">ON HOLD</span>';
+                statusTextElement.innerHTML = '<span class="status-echo-red">IN TRANSIT</span>';
                 
                 // STOP marquee animation
                 marqueeContent.classList.add('stop-marquee');
@@ -1120,7 +1120,7 @@
         // Call initialize on page load
         window.onload = function() {
             initializeStatus();
-            animateProgress(shipmentStatus === "ON_HOLD" ? 45 : 75);
+            animateProgress(shipmentStatus === "IN_TRANSIT" ? 45 : 75);
             updateCountdown();
         };
         
